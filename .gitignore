@@ -1,0 +1,22 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Databases
+db.sqlite3
+
+# Environments
+.env
+venv/
+.venv/
+env/
+
+# Celery
+celerybeat-schedule*
+celerybeat-schedule
+
+# IDEs
+.vscode/
+.idea/

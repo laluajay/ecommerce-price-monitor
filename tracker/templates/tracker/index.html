@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Sniper | Automated Tracking</title>
+    
+    <link rel="stylesheet" href="{% static 'tracker/style.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div style="position: absolute; top: 20px; right: 20px;">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" style="background:none; border:none; color:red; cursor:pointer; font-weight:bold;">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+        </form>
+    </div>
+
+    <div class="hero">
+        <h1><i class="fa-solid fa-crosshairs"></i> Price Sniper</h1>
+        <p>Drop a link below. We'll watch the price and email you when it drops.</p>
+        
+        <form method="POST" action="{% url 'add_tracker' %}" class="track-form" id="trackForm">
+            {% csrf_token %}
+            <input type="url" name="url" placeholder="Paste Flipkart or Amazon URL here..." required>
+            <input type="number" name="target_price" placeholder="Target Price (₹)" required>
+            <button type="submit" id="submitBtn">
+                <i class="fa-solid fa-radar" id="btnIcon"></i>
+                <span id="btnText">Track Item</span>
+            </button>
+        </form>
+    </div>
+
+    <div class="dashboard-container">
+        <h2 class="dashboard-header">Your Tracked Items</h2>
+        
+        <div class="product-grid">
+            {% for item in items %}
+            <div class="product-card" id="product-{{ item.product.id }}">
+                <h3 class="product-name" title="{{ item.product.name }}">{{ item.product.name }}</h3>
+                
+                <div class="price-container">
+                    {% if item.product.current_price %}
+                        <span class="price-tag">₹{{ item.product.current_price }}</span>
+                    {% else %}
+                        <span class="fetching-tag" data-id="{{ item.product.id }}">
+                            <i class="fa-solid fa-spinner fa-spin"></i> Fetching...
+                        </span>
+                    {% endif %}
+                </div>
+
+                <div class="card-actions">
+                    <a href="{{ item.product.url }}" target="_blank" class="buy-link">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> View Store
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+                <p>You aren't tracking any products yet. Add one above!</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        // Automatic refresh for "Fetching..." products
+        document.addEventListener('DOMContentLoaded', function() {
+            const fetchingTags = document.querySelectorAll('.fetching-tag');
+            
+            fetchingTags.forEach(tag => {
+                const productId = tag.getAttribute('data-id');
+                
+                const interval = setInterval(async () => {
+                    const response = await fetch(`/api/status/${productId}/`);
+                    const data = await response.json();
+                    
+                    if (data.current_price) {
+                        tag.innerHTML = `₹${data.current_price}`;
+                        tag.className = 'price-tag';
+                        clearInterval(interval); // Stop checking once price is found
+                    }
+                }, 3000); // Check every 3 seconds
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+/* tracker/static/tracker/style.css */
+
+:root {
+    --bg-color: #EEEEFF;
+    --accent: #7F7CAF;
+    --border: #9FB4C7;
+    --primary: #28587B;
+    --success: #9FB798;
+    --white: #FFFFFF;
+    --text-main: #333333;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    color: var(--text-main);
+}
+
+/* Add the rest of your CSS here (Hero, Dashboard, Product Card styles)... */
+/* Copy everything that was between <style> and </style> in your HTML into this file. */
