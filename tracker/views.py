@@ -13,12 +13,15 @@ from django.conf import settings
 from .tokens import account_activation_token
 
 
-# --- 1. Dashboard (The Main View) ---
-@login_required(login_url='/login/')
+# --- 1. Main View (Landing Page or Dashboard) ---
 def index(request):
-    # Fetch all items tracked by the currently logged-in user
-    user_items = TrackedItem.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, "tracker/index.html", {"items": user_items})
+    if request.user.is_authenticated:
+        # Fetch all items tracked by the currently logged-in user
+        user_items = TrackedItem.objects.filter(user=request.user).order_by('-created_at')
+        return render(request, "tracker/index.html", {"items": user_items})
+    else:
+        # Show guest landing page
+        return render(request, "tracker/landing.html")
 
 # --- 2. Add Tracker (Handles form submissions) ---
 @login_required(login_url='/login/')

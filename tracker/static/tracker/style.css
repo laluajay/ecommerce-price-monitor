@@ -723,3 +723,417 @@ a:hover {
 .errorlist li:last-child {
     margin-bottom: 0;
 }
+
+/* Landing Page Styles */
+.landing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 8%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.landing-header .logo {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: -0.03em;
+}
+
+.landing-header .logo i {
+    color: var(--primary);
+}
+
+.landing-header .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.landing-header .btn-link {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.landing-header .btn-link:hover {
+    color: var(--white);
+}
+
+.landing-header .btn-primary-sm {
+    background: var(--primary);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.landing-header .btn-primary-sm:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+}
+
+/* Landing Hero Section */
+.landing-hero {
+    position: relative;
+    padding: 180px 20px 100px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Glow Spheres for background decoration */
+.glow-sphere {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: -1;
+    opacity: 0.15;
+}
+
+.sphere-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--primary);
+    top: 10%;
+    left: 10%;
+}
+
+.sphere-2 {
+    width: 400px;
+    height: 400px;
+    background: var(--success);
+    bottom: 10%;
+    right: 10%;
+}
+
+.hero-content {
+    max-width: 850px;
+    margin-bottom: 60px;
+}
+
+.badge-new {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 6px 16px;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.badge-new .pulse {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--success);
+    border-radius: 50%;
+    animation: beacon 2s infinite;
+}
+
+@keyframes beacon {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.landing-hero h1 {
+    font-size: 3.8rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.05em;
+    color: var(--white);
+    margin-bottom: 24px;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #A5B4FC 0%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.landing-hero p {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+}
+
+.hero-ctas {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.btn-hero-primary {
+    background: var(--primary);
+    color: var(--white);
+    padding: 16px 32px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
+.btn-hero-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+}
+
+.btn-hero-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 16px 32px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.btn-hero-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dashboard Mockup Showcase */
+.mockup-container {
+    width: 100%;
+    max-width: 850px;
+    perspective: 1000px;
+}
+
+.mockup-window {
+    background: rgba(17, 24, 39, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    transform: rotateX(10deg);
+    transition: transform 0.5s;
+    overflow: hidden;
+}
+
+.mockup-window:hover {
+    transform: rotateX(0deg) translateY(-8px);
+}
+
+.mockup-header {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px 20px;
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mockup-header .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.mockup-header .dot.red { background: var(--danger); }
+.mockup-header .dot.yellow { background: var(--warning); }
+.mockup-header .dot.green { background: var(--success); }
+
+.mockup-body {
+    padding: 32px;
+}
+
+.mockup-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    text-align: left;
+}
+
+.mockup-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+}
+
+.mockup-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--success-bg);
+    color: var(--success);
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+}
+
+.mockup-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mockup-prices {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.mockup-prices span {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.mockup-prices strong {
+    font-size: 1.1rem;
+}
+
+.mockup-prices strong.primary {
+    color: var(--primary);
+}
+
+/* How It Works Section */
+.how-section {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.section-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 60px;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.step-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 40px 30px;
+    backdrop-filter: blur(12px);
+}
+
+.step-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(99, 102, 241, 0.2);
+}
+
+.step-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background: var(--success-bg);
+    color: var(--success);
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px auto;
+}
+
+.step-card:nth-child(2) .step-icon {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+}
+
+.step-card:nth-child(3) .step-icon {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+}
+
+.step-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--white);
+}
+
+.step-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Landing Page Footer */
+.landing-footer {
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Responsive adjust for landing page */
+@media (max-width: 768px) {
+    .landing-header {
+        padding: 20px 4%;
+    }
+    .landing-hero h1 {
+        font-size: 2.5rem;
+    }
+    .landing-hero p {
+        font-size: 1.1rem;
+    }
+    .hero-ctas {
+        flex-direction: column;
+        width: 100%;
+        max-width: 320px;
+    }
+    .btn-hero-primary, .btn-hero-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+    .mockup-grid {
+        grid-template-columns: 1fr;
+    }
+    .steps-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
