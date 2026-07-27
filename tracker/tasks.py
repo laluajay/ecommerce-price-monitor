@@ -112,24 +112,36 @@ def update_product_price(product_id):
             page_title = soup.title.string if soup.title else "No Title Found"
             return f"Error: No price tag. Page Title: '{page_title}'"
 
-        # Check for price changes and alert
-        if product.current_price != new_price:
+        # Update current price in DB if it changed
+        price_changed = (product.current_price != new_price)
+        if price_changed:
             product.current_price = new_price
             product.save()
 
-            triggered_alerts = TrackedItem.objects.filter(
-                product=product, 
-                target_price__gte=new_price
-            )
-            
-            for alert in triggered_alerts:
+        # Find all trackers for this product where target price is met
+        alerts = TrackedItem.objects.filter(product=product, target_price__gte=new_price)
+        sent_alerts_count = 0
+
+        for alert in alerts:
+            # Send alert if never notified before, OR if the price is lower than the last notified price
+            if alert.last_notified_price is None or new_price < alert.last_notified_price:
                 user_email = alert.user.email
-                if user_email:  
-                    subject = f"Price Drop Alert: {product.name}"
-                    message = f"Good news! The price of {product.name} has dropped to ₹{new_price}.\n\nBuy it here: {product.url}"
+                if user_email:
+                    subject = f"🎯 Target Met: {product.name}"
+                    message = (
+                        f"Good news! The price of {product.name} has hit your target of ₹{alert.target_price}.\n"
+                        f"Current Price: ₹{new_price}\n\n"
+                        f"Buy it here: {product.url}"
+                    )
                     send_mail(subject, message, settings.EMAIL_HOST_USER, [user_email], fail_silently=False)
+                    sent_alerts_count += 1
+                
+                # Update last notified price to prevent duplicate emails
+                alert.last_notified_price = new_price
+                alert.save()
             
-            return f"Updated {product.name} to {new_price} and sent {triggered_alerts.count()} alerts."
+        if price_changed or sent_alerts_count > 0:
+            return f"Updated {product.name} to {new_price} and sent {sent_alerts_count} alerts."
             
         return f"Checked {product.name}. Price remained {new_price}."
 
