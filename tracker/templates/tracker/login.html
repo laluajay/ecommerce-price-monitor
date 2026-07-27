@@ -26,6 +26,12 @@
                 </div>
             {% endif %}
 
+            {% if success %}
+                <div class="auth-success">
+                    <i class="fa-solid fa-circle-check"></i> {{ success }}
+                </div>
+            {% endif %}
+
             <form method="POST" class="auth-form">
                 {% csrf_token %}
                 <p>
@@ -38,9 +44,17 @@
                 </p>
                 
                 <button type="submit" class="auth-submit-btn">
-                    <i class="fa-solid fa-right-to-bracket"></i> Login
+                    <i class="fa-solid fa-right-from-bracket"></i> Login
                 </button>
             </form>
+
+            <div class="auth-divider">
+                <span>or</span>
+            </div>
+
+            <a href="{% url 'social:begin' 'google-oauth2' %}" class="google-btn">
+                <i class="fa-brands fa-google"></i> Continue with Google
+            </a>
 
             <div class="auth-footer">
                 Don't have an account? <a href="{% url 'register' %}">Register here</a>

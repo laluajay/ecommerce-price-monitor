@@ -4,7 +4,13 @@ from django.http import JsonResponse
 from .forms import CustomUserCreationForm
 from .models import Product, TrackedItem
 from .tasks import update_product_price
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.core.mail import send_mail
+from django.conf import settings
+from .tokens import account_activation_token
 
 
 # --- 1. Dashboard (The Main View) ---
@@ -80,12 +86,56 @@ def register_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('index')
+            user = form.save(commit=False)
+            user.is_active = False # Deactivate account until email verification
+            user.save()
+            
+            # Send activation email
+            current_site = get_current_site(request)
+            subject = 'Activate your Price Sniper Account'
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = account_activation_token.make_token(user)
+            activation_link = f"http://{current_site.domain}/activate/{uid}/{token}/"
+            
+            message = (
+                f"Hi {user.username},\n\n"
+                f"Please click on the link below to verify your email address and activate your account:\n\n"
+                f"{activation_link}\n\n"
+                f"Thank you,\nPrice Sniper Team"
+            )
+            
+            send_mail(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                [user.email],
+                fail_silently=False
+            )
+            return render(request, 'tracker/register.html', {
+                'success': 'Please confirm your email address to complete the registration. Check your inbox!'
+            })
     else:
         form = CustomUserCreationForm()
     return render(request, 'tracker/register.html', {'form': form})
+
+
+def activate_view(request, uidb64, token):
+    User = get_user_model()
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        return redirect('index')
+    else:
+        return render(request, 'tracker/register.html', {
+            'error': 'The activation link is invalid or has expired.'
+        })
 
 def login_view(request):
     if request.method == 'POST':

@@ -20,6 +20,19 @@
             <h1 class="auth-logo"><i class="fa-solid fa-crosshairs"></i> Price Sniper</h1>
             <p class="auth-subtitle">Create a free account to track items</p>
             
+            {% if success %}
+                <div class="auth-success">
+                    <i class="fa-solid fa-circle-check"></i> {{ success }}
+                </div>
+            {% endif %}
+
+            {% if error %}
+                <div class="auth-error">
+                    <i class="fa-solid fa-circle-exclamation"></i> {{ error }}
+                </div>
+            {% endif %}
+
+            {% if not success %}
             <form method="POST" class="auth-form">
                 {% csrf_token %}
                 
@@ -29,6 +42,15 @@
                     <i class="fa-solid fa-user-plus"></i> Create Account
                 </button>
             </form>
+
+            <div class="auth-divider">
+                <span>or</span>
+            </div>
+
+            <a href="{% url 'social:begin' 'google-oauth2' %}" class="google-btn">
+                <i class="fa-brands fa-google"></i> Continue with Google
+            </a>
+            {% endif %}
 
             <div class="auth-footer">
                 Already have an account? <a href="{% url 'login' %}">Login here</a>
