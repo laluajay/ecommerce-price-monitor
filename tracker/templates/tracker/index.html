@@ -21,12 +21,9 @@
         <div class="user-badge">
             <i class="fa-solid fa-user-circle"></i> {{ request.user.username }}
         </div>
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="logout-btn">
-                <i class="fa-solid fa-right-from-bracket"></i> Logout
-            </button>
-        </form>
+        <a href="{% url 'logout' %}" class="logout-btn">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
     </div>
 
     <!-- Hero Section with tracker adder form -->
