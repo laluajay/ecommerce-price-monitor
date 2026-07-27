@@ -19,6 +19,5 @@ from django.urls import path, include  # Make sure 'include' is here
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('oauth/', include('social_django.urls', namespace='social')),
     path('', include('tracker.urls')), # This tells Django to look in tracker/urls.py
 ]
