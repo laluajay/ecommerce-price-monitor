@@ -6,20 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Price Sniper | Automated Tracking</title>
     
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="{% static 'tracker/style.css' %}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <div style="position: absolute; top: 20px; right: 20px;">
+    <!-- Header / User Action Bar -->
+    <div class="top-actions">
+        <div class="user-badge">
+            <i class="fa-solid fa-user-circle"></i> {{ request.user.username }}
+        </div>
         <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
-            <button type="submit" style="background:none; border:none; color:red; cursor:pointer; font-weight:bold;">
+            <button type="submit" class="logout-btn">
                 <i class="fa-solid fa-right-from-bracket"></i> Logout
             </button>
         </form>
     </div>
 
+    <!-- Hero Section with tracker adder form -->
     <div class="hero">
         <h1><i class="fa-solid fa-crosshairs"></i> Price Sniper</h1>
         <p>Drop a link below. We'll watch the price and email you when it drops.</p>
@@ -27,7 +37,7 @@
         <form method="POST" action="{% url 'add_tracker' %}" class="track-form" id="trackForm">
             {% csrf_token %}
             <input type="url" name="url" placeholder="Paste Flipkart or Amazon URL here..." required>
-            <input type="number" name="target_price" placeholder="Target Price (₹)" required>
+            <input type="number" name="target_price" placeholder="Target (₹)" step="any" required>
             <button type="submit" id="submitBtn">
                 <i class="fa-solid fa-radar" id="btnIcon"></i>
                 <span id="btnText">Track Item</span>
@@ -35,38 +45,90 @@
         </form>
     </div>
 
+    <!-- Dashboard Main View -->
     <div class="dashboard-container">
-        <h2 class="dashboard-header">Your Tracked Items</h2>
+        <h2 class="dashboard-header"><i class="fa-solid fa-chart-line"></i> Your Tracked Items</h2>
         
         <div class="product-grid">
             {% for item in items %}
-            <div class="product-card" id="product-{{ item.product.id }}">
-                <h3 class="product-name" title="{{ item.product.name }}">{{ item.product.name }}</h3>
+            <div class="product-card" id="product-card-{{ item.product.id }}">
                 
-                <div class="price-container">
-                    {% if item.product.current_price %}
-                        <span class="price-tag">₹{{ item.product.current_price }}</span>
-                    {% else %}
-                        <span class="fetching-tag" data-id="{{ item.product.id }}">
-                            <i class="fa-solid fa-spinner fa-spin"></i> Fetching...
-                        </span>
-                    {% endif %}
+                <!-- Target Alert Badge -->
+                {% if item.product.current_price and item.product.current_price <= item.target_price %}
+                <div class="alert-banner">
+                    <i class="fa-solid fa-bell"></i> Target Met
+                </div>
+                {% endif %}
+
+                <h3 class="product-name" id="product-name-{{ item.product.id }}" title="{{ item.product.name }}">
+                    {{ item.product.name }}
+                </h3>
+                
+                <div class="price-details">
+                    <div class="price-col">
+                        <span class="price-label">Current</span>
+                        {% if item.product.current_price %}
+                            <span class="price-val current {% if item.product.current_price <= item.target_price %}triggered{% endif %}" id="price-val-{{ item.product.id }}">
+                                ₹{{ item.product.current_price }}
+                            </span>
+                        {% else %}
+                            <span class="fetching-tag" data-id="{{ item.product.id }}" id="price-val-{{ item.product.id }}">
+                                <i class="fa-solid fa-spinner fa-spin"></i> Fetching...
+                            </span>
+                        {% endif %}
+                    </div>
+                    <div class="price-col" style="text-align: right;">
+                        <span class="price-label">Target</span>
+                        <span class="price-val target" id="target-val-{{ item.id }}">₹{{ item.target_price }}</span>
+                    </div>
                 </div>
 
                 <div class="card-actions">
                     <a href="{{ item.product.url }}" target="_blank" class="buy-link">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> View Store
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Store
                     </a>
+                    
+                    <!-- Edit Button -->
+                    <button class="action-icon-btn edit" onclick="toggleEditForm({{ item.id }})" title="Edit Target Price">
+                        <i class="fa-solid fa-pencil"></i>
+                    </button>
+
+                    <!-- Delete Button -->
+                    <form method="POST" action="{% url 'delete_tracker' item.id %}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this tracker?');">
+                        {% csrf_token %}
+                        <button type="submit" class="action-icon-btn delete" title="Delete Tracker">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
                 </div>
+
+                <!-- Inline Edit Form (Hidden by default) -->
+                <form id="edit-form-{{ item.id }}" class="inline-edit-form" method="POST" action="{% url 'edit_tracker' item.id %}">
+                    {% csrf_token %}
+                    <input type="number" name="target_price" placeholder="New Target" step="any" value="{{ item.target_price }}" required>
+                    <button type="submit">Save</button>
+                </form>
             </div>
             {% empty %}
-                <p>You aren't tracking any products yet. Add one above!</p>
+            <div class="empty-state">
+                <i class="fa-solid fa-face-frown"></i>
+                <p>You aren't tracking any products yet. Add one above to get started!</p>
+            </div>
             {% endfor %}
         </div>
     </div>
 
+    <!-- JavaScript Integrations -->
     <script>
-        // Automatic refresh for "Fetching..." products
+        // Toggle inline edit form view
+        function toggleEditForm(itemId) {
+            const form = document.getElementById(`edit-form-${itemId}`);
+            if (form) {
+                form.classList.toggle('active');
+            }
+        }
+
+        // Automatic refresh for fetching products
         document.addEventListener('DOMContentLoaded', function() {
             const fetchingTags = document.querySelectorAll('.fetching-tag');
             
@@ -74,18 +136,63 @@
                 const productId = tag.getAttribute('data-id');
                 
                 const interval = setInterval(async () => {
-                    const response = await fetch(`/api/status/${productId}/`);
-                    const data = await response.json();
-                    
-                    if (data.current_price) {
-                        tag.innerHTML = `₹${data.current_price}`;
-                        tag.className = 'price-tag';
-                        clearInterval(interval); // Stop checking once price is found
+                    try {
+                        const response = await fetch(`/api/status/${productId}/`);
+                        if (response.ok) {
+                            const data = await response.json();
+                            if (data.current_price) {
+                                // Update price text and class
+                                tag.innerHTML = `₹${data.current_price}`;
+                                tag.className = 'price-val current';
+                                
+                                // Update product name text
+                                const titleEl = document.getElementById(`product-name-${productId}`);
+                                if (titleEl && data.name) {
+                                    titleEl.innerText = data.name;
+                                    titleEl.title = data.name;
+                                }
+                                
+                                // Refresh page or card components (optional, but let's reload to update alert banner if met)
+                                const card = document.getElementById(`product-card-${productId}`);
+                                const targetValStr = document.getElementById(`target-val-${productId}`)?.innerText || '0';
+                                const targetVal = parseFloat(targetValStr.replace(/[^\d.]/g, ''));
+                                const currentVal = parseFloat(data.current_price);
+                                
+                                if (currentVal <= targetVal) {
+                                    // Add alert banner if target is met
+                                    if (card && !card.querySelector('.alert-banner')) {
+                                        const alertDiv = document.createElement('div');
+                                        alertDiv.className = 'alert-banner';
+                                        alertDiv.innerHTML = '<i class="fa-solid fa-bell"></i> Target Met';
+                                        card.insertBefore(alertDiv, card.firstChild);
+                                        tag.classList.add('triggered');
+                                    }
+                                }
+                                
+                                clearInterval(interval);
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Error fetching updates:", e);
                     }
-                }, 3000); // Check every 3 seconds
+                }, 3000);
             });
+
+            // Handle submission loading state
+            const trackForm = document.getElementById('trackForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnIcon = document.getElementById('btnIcon');
+            const btnText = document.getElementById('btnText');
+
+            if (trackForm && submitBtn) {
+                trackForm.addEventListener('submit', function() {
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = '0.7';
+                    btnIcon.className = 'fa-solid fa-spinner fa-spin';
+                    btnText.innerText = 'Starting Snipe...';
+                });
+            }
         });
     </script>
-
 </body>
 </html>

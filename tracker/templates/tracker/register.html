@@ -3,35 +3,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up | Price Sniper</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="{% static 'tracker/style.css' %}">
-    <style>
-        /* This ensures the Django Form looks as good as the Login inputs */
-        p { margin-bottom: 15px; }
-        input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        label { display: block; margin-bottom: 5px; color: #555; font-size: 0.9rem; }
-        .helptext { font-size: 0.75rem; color: #777; } /* Styling for password requirements */
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body style="display:flex; justify-content:center; align-items:center; height:100vh; background-color: #f4f7f6; font-family: sans-serif;">
-
-    <div style="background:white; padding:40px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); width: 350px;">
-        <h2 style="color: #28587B; text-align: center; margin-bottom: 20px;">Create Account</h2>
-        
-        <form method="POST">
-            {% csrf_token %}
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h1 class="auth-logo"><i class="fa-solid fa-crosshairs"></i> Price Sniper</h1>
+            <p class="auth-subtitle">Create a free account to track items</p>
             
-            {{ form.as_p }}
-            
-            <button type="submit" style="width:100%; padding:12px; background:#28587B; color:white; border:none; border-radius:5px; cursor:pointer; font-weight: bold; margin-top: 10px;">
-                Sign Up
-            </button>
-        </form>
+            <form method="POST" class="auth-form">
+                {% csrf_token %}
+                
+                {{ form.as_p }}
+                
+                <button type="submit" class="auth-submit-btn">
+                    <i class="fa-solid fa-user-plus"></i> Create Account
+                </button>
+            </form>
 
-        <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
-            Already have an account? <a href="{% url 'login' %}" style="color: #28587B; text-decoration: none;">Login here</a>
-        </p>
+            <div class="auth-footer">
+                Already have an account? <a href="{% url 'login' %}">Login here</a>
+            </div>
+        </div>
     </div>
-
 </body>
 </html>

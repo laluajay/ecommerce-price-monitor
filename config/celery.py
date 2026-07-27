@@ -20,7 +20,7 @@ from celery.schedules import crontab
 
 app.conf.beat_schedule = {
     'check-prices-every-6-hours': {
-        'task': 'tracker.tasks.update_product_price',
+        'task': 'tracker.tasks.update_all_prices',
         'schedule': crontab(minute=0, hour='*/6'), # Runs every 6 hours
     },
 }

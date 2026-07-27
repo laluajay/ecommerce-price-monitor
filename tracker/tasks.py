@@ -29,6 +29,30 @@ def update_product_price(product_id):
             return f"Error: Hard-blocked (503) for {product.url}"
 
         soup = BeautifulSoup(response.content, 'html.parser')
+
+        # Update product title if it's default "New Product" or empty
+        if product.name == "New Product" or not product.name:
+            title = None
+            if "amazon" in product.url.lower():
+                title_el = soup.find(id="productTitle")
+                if title_el:
+                    title = title_el.text.strip()
+            elif "flipkart" in product.url.lower():
+                title_el = soup.find(class_="B_NuCI") or soup.find(class_="VU-ZEz")
+                if title_el:
+                    title = title_el.text.strip()
+            
+            if not title:
+                title_el = soup.find('title')
+                if title_el:
+                    title = title_el.text.strip()
+            
+            if title:
+                # Normalize spaces and truncate if too long
+                title = re.sub(r'\s+', ' ', title).strip()[:255]
+                product.name = title
+                product.save()
+
         new_price = None
 
         # 1. THE JEDI SNIPER: Look for hidden Google SEO Data
