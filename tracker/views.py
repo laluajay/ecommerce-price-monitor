@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.contrib.auth.forms import UserCreationForm
+from .forms import CustomUserCreationForm
 from .models import Product, TrackedItem
 from .tasks import update_product_price
 from django.contrib.auth import authenticate, login, logout
@@ -78,13 +78,13 @@ def get_product_status(request, product_id):
 # --- 6. Auth Views ---
 def register_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('index')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'tracker/register.html', {'form': form})
 
 def login_view(request):
