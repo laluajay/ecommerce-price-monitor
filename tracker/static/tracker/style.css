@@ -702,3 +702,24 @@ a:hover {
     font-weight: 600;
     line-height: 1.5;
 }
+
+/* Django Form Validation Errors */
+.errorlist {
+    color: var(--danger);
+    background: var(--danger-bg);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 10px 15px 10px 30px;
+    border-radius: 12px;
+    list-style-type: disc;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.errorlist li {
+    margin-bottom: 4px;
+}
+
+.errorlist li:last-child {
+    margin-bottom: 0;
+}
