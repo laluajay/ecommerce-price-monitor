@@ -129,6 +129,7 @@ JAZZMIN_SETTINGS = {
     },
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
+    "custom_css": "tracker/admin_custom.css",
 }
 
 JAZZMIN_UI_TWEAKS = {

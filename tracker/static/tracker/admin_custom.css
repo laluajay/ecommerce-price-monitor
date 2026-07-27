@@ -1,0 +1,136 @@
+/* tracker/static/tracker/admin_custom.css */
+
+/* Modern Font */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+/* Center Login Box and Style Page Background */
+body.login-page {
+    font-family: 'Outfit', 'Inter', sans-serif !important;
+    background-color: #0b0f19 !important;
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%) !important;
+    background-attachment: fixed !important;
+    height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.login-box {
+    width: 420px !important;
+}
+
+/* Glassmorphic card theme */
+.login-box .card {
+    background: rgba(22, 28, 42, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(16px) !important;
+    overflow: hidden !important;
+}
+
+.login-box .card-header {
+    background: transparent !important;
+    border-bottom: none !important;
+    padding-top: 40px !important;
+    padding-bottom: 5px !important;
+}
+
+.login-box .card-header a {
+    font-size: 2.2rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    letter-spacing: -0.04em !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+}
+
+/* Title text logo */
+.login-box .card-header a b {
+    font-weight: 800 !important;
+    color: #ffffff !important;
+}
+
+.login-box .login-card-body {
+    background: transparent !important;
+    color: #f3f4f6 !important;
+    padding: 30px 40px 40px 40px !important;
+}
+
+.login-box .login-box-msg {
+    color: #9ca3af !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 24px !important;
+    padding: 0 !important;
+    text-align: center !important;
+}
+
+/* Input Fields overrides */
+.login-box .input-group {
+    margin-bottom: 20px !important;
+}
+
+.login-box .form-control {
+    background: #1f2937 !important;
+    border: 1px solid #374151 !important;
+    border-radius: 12px !important;
+    color: #ffffff !important;
+    padding: 12px 16px !important;
+    height: auto !important;
+}
+
+.login-box .form-control:focus {
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
+}
+
+.login-box .input-group-text {
+    background: #1f2937 !important;
+    border: 1px solid #374151 !important;
+    border-left: none !important;
+    border-radius: 0 12px 12px 0 !important;
+    color: #9ca3af !important;
+}
+
+.login-box .input-group .form-control {
+    border-right: none !important;
+    border-radius: 12px 0 0 12px !important;
+}
+
+/* Premium submit button styling */
+.login-box .btn-primary {
+    background-color: #6366f1 !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 14px !important;
+    font-weight: 700 !important;
+    font-size: 1rem !important;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s !important;
+    color: #ffffff !important;
+}
+
+.login-box .btn-primary:hover {
+    background-color: #4f46e5 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4) !important;
+}
+
+/* Styling for remember me checkboxes */
+.login-box label {
+    color: #9ca3af !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+}
+
+.login-box .icheck-primary label::before {
+    border: 1px solid #374151 !important;
+    background: #1f2937 !important;
+    border-radius: 4px !important;
+}
