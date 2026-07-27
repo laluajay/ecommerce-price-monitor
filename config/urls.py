@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include  # Make sure 'include' is here
+from tracker import views as tracker_views
 
 urlpatterns = [
+    path('admin/logout/', tracker_views.logout_view),
     path('admin/', admin.site.urls),
     path('', include('tracker.urls')), # This tells Django to look in tracker/urls.py
 ]
