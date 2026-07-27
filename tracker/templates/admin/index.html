@@ -2,79 +2,113 @@
 {% load i18n static %}
 
 {% block content %}
-    <!-- Analytics Dashboard Header -->
     {% if show_analytics %}
-    <div style="font-family: 'Outfit', 'Inter', sans-serif; margin-bottom: 30px;">
-        <h2 style="color: #fff; margin-bottom: 20px; font-weight: 800; letter-spacing: -0.02em;">📊 Real-time Shopper Analytics</h2>
+    <div class="container-fluid mb-4" style="font-family: 'Outfit', sans-serif; padding: 0;">
+        <!-- Page Title -->
+        <h2 class="mb-4 font-weight-bold" style="color: inherit;">📊 Shopper Analytics Dashboard</h2>
         
         <!-- Metrics Row -->
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px;">
-            <!-- Card 1 -->
-            <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
-                <div style="font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">Total Shoppers</div>
-                <div style="font-size: 2.2rem; font-weight: 800; color: #6366f1; margin-top: 8px;">{{ users_count }}</div>
+        <div class="row">
+            <!-- Shoppers -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-0 shadow-sm text-white" style="background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%); border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1" style="opacity: 0.85; font-size: 0.75rem;">Total Shoppers</div>
+                        <div class="h2 font-weight-bold mb-0">{{ users_count }}</div>
+                    </div>
+                </div>
             </div>
-            <!-- Card 2 -->
-            <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
-                <div style="font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">Monitored Products</div>
-                <div style="font-size: 2.2rem; font-weight: 800; color: #10b981; margin-top: 8px;">{{ products_count }}</div>
+            <!-- Products -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-0 shadow-sm text-white" style="background: linear-gradient(135deg, #0d9488 0%, #10b981 100%); border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1" style="opacity: 0.85; font-size: 0.75rem;">Monitored Products</div>
+                        <div class="h2 font-weight-bold mb-0">{{ products_count }}</div>
+                    </div>
+                </div>
             </div>
-            <!-- Card 3 -->
-            <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
-                <div style="font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">Active Alerts</div>
-                <div style="font-size: 2.2rem; font-weight: 800; color: #f59e0b; margin-top: 8px;">{{ items_count }}</div>
+            <!-- Alerts -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-0 shadow-sm text-white" style="background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%); border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1" style="opacity: 0.85; font-size: 0.75rem;">Active Alerts</div>
+                        <div class="h2 font-weight-bold mb-0">{{ items_count }}</div>
+                    </div>
+                </div>
             </div>
-            <!-- Card 4 -->
-            <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
-                <div style="font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">Targets Met 🎯</div>
-                <div style="font-size: 2.2rem; font-weight: 800; color: #ef4444; margin-top: 8px;">{{ target_met_count }}</div>
+            <!-- Targets Met -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-0 shadow-sm text-white" style="background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%); border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1" style="opacity: 0.85; font-size: 0.75rem;">Targets Met 🎯</div>
+                        <div class="h2 font-weight-bold mb-0">{{ target_met_count }}</div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Charts Row -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
-            <!-- Doughnut Chart: Target Status -->
-            <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); padding: 24px; border-radius: 16px; height: 350px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
-                <h3 style="margin-top:0; color: #fff; margin-bottom: 20px; font-size: 1.1rem; font-weight: 700;">🎯 Alert Target Status</h3>
-                <div style="height: 230px; position: relative; display: flex; justify-content: center;">
-                    <canvas id="alertStatusChart"></canvas>
+        <div class="row">
+            <!-- Doughnut Chart -->
+            <div class="col-xl-6 mb-4">
+                <div class="card border-0 shadow-sm" style="border-radius: 16px; background: rgba(0, 0, 0, 0.05); border: 1px solid rgba(255,255,255,0.08) !important;">
+                    <div class="card-header border-0 bg-transparent py-3">
+                        <h6 class="m-0 font-weight-bold text-primary" style="font-size: 1.1rem;">🎯 Alert Target Status</h6>
+                    </div>
+                    <div class="card-body">
+                        <div style="height: 240px; position: relative; display: flex; justify-content: center;">
+                            <canvas id="alertStatusChart"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Bar Chart: Popular Products -->
-            <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); padding: 24px; border-radius: 16px; height: 350px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
-                <h3 style="margin-top:0; color: #fff; margin-bottom: 20px; font-size: 1.1rem; font-weight: 700;">🔥 Top 5 Most Tracked Products</h3>
-                <div style="height: 230px; position: relative;">
-                    <canvas id="popularProductsChart"></canvas>
+            <!-- Bar Chart -->
+            <div class="col-xl-6 mb-4">
+                <div class="card border-0 shadow-sm" style="border-radius: 16px; background: rgba(0, 0, 0, 0.05); border: 1px solid rgba(255,255,255,0.08) !important;">
+                    <div class="card-header border-0 bg-transparent py-3">
+                        <h6 class="m-0 font-weight-bold text-warning" style="font-size: 1.1rem;">🔥 Top 5 Most Tracked Products</h6>
+                    </div>
+                    <div class="card-body">
+                        <div style="height: 240px; position: relative;">
+                            <canvas id="popularProductsChart"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Table View of Top Products -->
-        <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); padding: 24px; border-radius: 16px; color: #fff; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
-            <h3 style="margin-top:0; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom:12px; font-size: 1.1rem; font-weight: 700;">📋 Details: Popular Products</h3>
-            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                <thead>
-                    <tr style="color: #94a3b8; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem;">
-                        <th style="padding: 12px 8px; font-weight: 700;">Product Title</th>
-                        <th style="padding: 12px 8px; font-weight: 700;">Current Price</th>
-                        <th style="padding: 12px 8px; font-weight: 700; text-align: right;">Active Trackers</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for prod in top_products %}
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.9rem;">
-                        <td style="padding: 12px 8px; max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <a href="{{ prod.url }}" target="_blank" style="color: #6366f1; text-decoration: none; font-weight: 600;">{{ prod.name }}</a>
-                        </td>
-                        <td style="padding: 12px 8px; font-weight: 600; color: #e2e8f0;">
-                            {% if prod.current_price %}₹{{ prod.current_price }}{% else %}Fetching...{% endif %}
-                        </td>
-                        <td style="padding: 12px 8px; text-align: right; font-weight: 800; color: #f59e0b;">{{ prod.num_trackers }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="card border-0 shadow-sm mb-4" style="border-radius: 16px; background: rgba(0, 0, 0, 0.05); border: 1px solid rgba(255,255,255,0.08) !important;">
+            <div class="card-header border-0 bg-transparent py-3">
+                <h6 class="m-0 font-weight-bold text-white" style="font-size: 1.1rem;">📋 Details: Popular Products</h6>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table m-0" style="background: transparent; color: inherit;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid rgba(255,255,255,0.08); font-size: 0.85rem; opacity: 0.8;">
+                                <th style="border: 0; padding: 14px 20px;">Product Title</th>
+                                <th style="border: 0; padding: 14px 20px;">Current Price</th>
+                                <th style="border: 0; padding: 14px 20px; text-align: right;">Active Trackers</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for prod in top_products %}
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.9rem;">
+                                <td style="padding: 14px 20px; max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border:0;">
+                                    <a href="{{ prod.url }}" target="_blank" style="color: #6366f1; text-decoration: none; font-weight: 600;">{{ prod.name }}</a>
+                                </td>
+                                <td style="padding: 14px 20px; font-weight: 600; border: 0;">
+                                    {% if prod.current_price %}₹{{ prod.current_price }}{% else %}Fetching...{% endif %}
+                                </td>
+                                <td style="padding: 14px 20px; text-align: right; font-weight: 800; color: #f59e0b; border: 0;">{{ prod.num_trackers }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -82,6 +116,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Check if theme is dark or light to toggle text color in charts
+            const isDark = document.body.classList.contains('dark-mode') || 
+                           window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const textColor = isDark ? '#f3f4f6' : '#1f2937';
+
             // Chart 1: Alert Doughnut
             const metCount = {{ target_met_count }};
             const totalCount = {{ items_count }};
@@ -95,7 +134,7 @@
                     datasets: [{
                         data: [metCount, pendingCount],
                         backgroundColor: ['#10b981', '#6366f1'],
-                        borderColor: '#1e293b',
+                        borderColor: isDark ? '#2a3042' : '#ffffff',
                         borderWidth: 2
                     }]
                 },
@@ -106,7 +145,7 @@
                         legend: {
                             position: 'bottom',
                             labels: {
-                                color: '#f3f4f6',
+                                color: textColor,
                                 font: {
                                     family: "'Outfit', sans-serif",
                                     size: 11
@@ -121,7 +160,6 @@
             const labels = [];
             const data = [];
             {% for prod in top_products %}
-                // Truncate labels for chart clean display
                 let title = "{{ prod.name|escapejs }}";
                 if (title.length > 18) {
                     title = title.substring(0, 15) + '...';
@@ -151,7 +189,7 @@
                     scales: {
                         x: {
                             ticks: {
-                                color: '#94a3b8',
+                                color: textColor,
                                 font: {
                                     family: "'Outfit', sans-serif",
                                     size: 9
@@ -161,14 +199,14 @@
                         },
                         y: {
                             ticks: {
-                                color: '#94a3b8',
+                                color: textColor,
                                 stepSize: 1,
                                 font: {
                                     family: "'Outfit', sans-serif",
                                     size: 10
                                 }
                             },
-                            grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                            grid: { color: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' }
                         }
                     }
                 }

@@ -19,6 +19,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -108,3 +109,29 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
 LOGIN_URL = 'login' 
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
+
+# Jazzmin Admin Theme Configurations
+JAZZMIN_SETTINGS = {
+    "site_title": "Price Sniper Admin",
+    "site_header": "Price Sniper",
+    "site_brand": "Price Sniper Dashboard",
+    "welcome_sign": "Welcome to Price Sniper Administration Portal",
+    "copyright": "Price Sniper Ltd",
+    "search_model": ["auth.User", "tracker.Product"],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "tracker.Product": "fas fa-tags",
+        "tracker.TrackedItem": "fas fa-crosshairs",
+    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "flatly",
+    "dark_mode_theme": "darkly",
+}
