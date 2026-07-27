@@ -47,9 +47,12 @@
                 <span>or</span>
             </div>
 
-            <a href="{% url 'social:begin' 'google-oauth2' %}" class="google-btn">
-                <i class="fa-brands fa-google"></i> Continue with Google
-            </a>
+            <form action="{% url 'social:begin' 'google-oauth2' %}" method="post" style="width: 100%;">
+                {% csrf_token %}
+                <button type="submit" class="google-btn" style="width: 100%; border: 1px solid #E5E7EB; font-family: inherit;">
+                    <i class="fa-brands fa-google"></i> Continue with Google
+                </button>
+            </form>
             {% endif %}
 
             <div class="auth-footer">
